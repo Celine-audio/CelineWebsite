@@ -1,0 +1,916 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   Céline — site styles
+
+   The palette is lifted verbatim from source/UI/Theme.h so the page and the
+   plugin cannot drift apart. Same rule applies here as there: nothing below
+   the token block names a hex value.
+
+   Contents
+     1.  Tokens
+     2.  Reset and base
+     3.  Layout primitives
+     4.  Header and navigation
+     5.  Buttons
+     6.  Hero
+     7.  The sheet (hero schematic)
+     8.  Section furniture
+     9.  What it is: two columns, steps, screenshot, key bindings
+     10. Parts browser
+     11. Download
+     12. Licence
+     13. Footer
+     14. Scroll reveal
+     15. Responsive
+   ═══════════════════════════════════════════════════════════════════════ */
+
+
+/* ══ 1. Tokens ═══════════════════════════════════════════════════════════ */
+
+@font-face {
+  font-family: "Jura";
+  src: url("assets/fonts/Jura-Light.ttf") format("truetype");
+  font-weight: 300; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Jura";
+  src: url("assets/fonts/Jura-Regular.ttf") format("truetype");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Jura";
+  src: url("assets/fonts/Jura-SemiBold.ttf") format("truetype");
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+
+:root {
+  /* surfaces */
+  --chrome:          #3b334b;
+  --bg:              #28262e;
+  --surface:         #37364a;
+  --surface-bright:  #4f485d;
+  --console:         #17151a;
+  --line:            #d9d9d9;
+  --grid:            #5c5c5c;
+
+  /* text */
+  --text:            #f8f8f3;
+  --text-dim:        #d9d9d9;
+
+  /* Site-only. Theme.h's comment() is a UI grey for labels that sit next to
+     the thing they name; as running body copy on a web page it lands at about
+     3.1:1 on the card surface, which is under AA. This is the same "quieter
+     than the heading" role at 5.5:1 instead. */
+  --text-soft:       #b3b1bb;
+
+  /* accents — Monokai, near enough */
+  --violet:          #9761dc;
+  --teal:            #8f63d5;
+  --green:           #a6e22e;
+  --yellow:          #e6db74;
+  --pink:            #f92672;
+
+  /* geometry, matching the plugin */
+  --radius:          8px;
+  --border:          1.2px;
+
+  --wrap:            1140px;
+  --pad:             clamp(1.25rem, 4vw, 2.5rem);
+  --section-y:       clamp(2.5rem, 5.5vw, 4.5rem);
+
+  /* How far a sticky element clears the fixed-ish header. */
+  --sticky-top:      6rem;
+
+  --font: "Jura", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+
+/* ══ 2. Reset and base ═══════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--sticky-top);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text-dim);
+  font-family: var(--font);
+  font-weight: 400;
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+p { margin: 0 0 1.15em; text-wrap: pretty; }
+p:last-child { margin-bottom: 0; }
+
+a {
+  color: var(--violet);
+  text-decoration-color: color-mix(in srgb, var(--violet) 40%, transparent);
+  text-underline-offset: 0.2em;
+}
+a:hover { color: var(--text); text-decoration-color: currentColor; }
+
+img, svg { max-width: 100%; height: auto; display: block; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+
+code, kbd { font-family: var(--mono); font-size: 0.86em; }
+code {
+  background: var(--console);
+  border: var(--border) solid color-mix(in srgb, var(--line) 14%, transparent);
+  border-radius: 4px;
+  padding: 0.12em 0.4em;
+  color: var(--green);
+}
+
+strong { color: var(--text); font-weight: 600; }
+em { color: var(--text); font-style: italic; }
+
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 200;
+  background: var(--teal); color: var(--text);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0 0 var(--radius) 0;
+}
+.skip:focus { left: 0; }
+
+:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+
+/* ══ 3. Layout primitives ════════════════════════════════════════════════ */
+
+.wrap {
+  width: min(var(--wrap), 100%);
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
+
+.prose { max-width: 68ch; }
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+
+/* ══ 4. Header and navigation ════════════════════════════════════════════ */
+
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: color-mix(in srgb, var(--chrome) 92%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: var(--border) solid color-mix(in srgb, var(--line) 12%, transparent);
+}
+
+.header-inner {
+  display: flex; align-items: center; gap: 1.5rem;
+  min-height: 68px;
+}
+
+.brand { display: flex; align-items: center; flex: 0 0 auto; }
+.brand-mark { width: 118px; }
+
+.nav {
+  display: flex; gap: 1.75rem;
+  margin-left: auto;
+}
+.nav a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding-block: 0.35rem;
+  border-bottom: 2px solid transparent;
+}
+.nav a:hover { color: var(--text); border-bottom-color: var(--teal); }
+
+.gh { flex: 0 0 auto; }
+.gh svg { flex: 0 0 auto; }
+
+.menu-btn {
+  display: none;
+  margin-left: auto;
+  flex-direction: column; justify-content: center; gap: 5px;
+  width: 42px; height: 42px;
+  padding: 0;
+  background: none; border: 0; cursor: pointer;
+}
+.menu-btn span {
+  display: block; height: 2px; width: 22px;
+  margin-inline: auto;
+  background: var(--text);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.menu-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-btn[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.menu-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.nav-mobile {
+  display: none;
+  flex-direction: column;
+  padding: 0.5rem var(--pad) 1.25rem;
+  border-top: var(--border) solid color-mix(in srgb, var(--line) 12%, transparent);
+}
+.nav-mobile a {
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 0.7rem 0;
+  border-bottom: var(--border) solid color-mix(in srgb, var(--line) 8%, transparent);
+}
+.nav-mobile.open { display: flex; }
+
+
+/* ══ 5. Buttons ══════════════════════════════════════════════════════════ */
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  border: var(--border) solid transparent;
+  border-radius: var(--radius);
+  font: inherit; font-size: 0.98rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+.btn:active { transform: translateY(1px); }
+
+.btn-primary {
+  background: var(--teal);
+  color: var(--text);
+}
+.btn-primary:hover {
+  background: color-mix(in srgb, var(--teal) 82%, white);
+  color: var(--text);
+}
+
+.btn-ghost {
+  background: var(--surface);
+  border-color: color-mix(in srgb, var(--line) 22%, transparent);
+  color: var(--text-dim);
+}
+.btn-ghost:hover {
+  background: var(--surface-bright);
+  color: var(--text);
+}
+
+.btn-sm { padding: 0.45rem 0.95rem; font-size: 0.9rem; }
+.btn-block { width: 100%; }
+
+
+/* ══ 6. Hero ═════════════════════════════════════════════════════════════ */
+
+.hero {
+  position: relative;
+  padding-block: clamp(2.25rem, 5vw, 4rem) clamp(2rem, 4.5vw, 3.5rem);
+  overflow: hidden;
+}
+
+.grid-bg {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--grid) 30%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--grid) 30%, transparent) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, black, transparent 75%);
+  pointer-events: none;
+}
+
+.hero-inner { position: relative; text-align: center; }
+
+.hero-title {
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  line-height: 1.05;
+  margin-bottom: 1.25rem;
+}
+.hero-title em {
+  color: var(--violet);
+  font-style: normal;
+}
+
+.hero-sub {
+  max-width: 62ch;
+  margin: 0 auto 1.75rem;
+  color: var(--text-soft);
+  font-size: clamp(1.02rem, 0.98rem + 0.3vw, 1.18rem);
+}
+
+.cta-row {
+  display: flex; flex-wrap: wrap; gap: 0.85rem; justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.format-strip {
+  display: flex; flex-wrap: wrap; gap: 0.5rem 1.1rem; justify-content: center;
+  color: var(--text-soft);
+  font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.format-strip .sep {
+  width: var(--border); height: 1em;
+  background: color-mix(in srgb, var(--line) 25%, transparent);
+  align-self: center;
+}
+
+
+/* ══ 7. The sheet (hero schematic) ═══════════════════════════════════════ */
+
+.sheet {
+  margin: clamp(1.75rem, 4vw, 2.75rem) 0 0;
+  border: var(--border) solid color-mix(in srgb, var(--line) 16%, transparent);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg);
+  box-shadow: 0 24px 70px -30px rgb(0 0 0 / 0.8);
+}
+
+.sheet-chrome {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  background: var(--chrome);
+  border-bottom: var(--border) solid color-mix(in srgb, var(--line) 12%, transparent);
+}
+.tl-dot { width: 11px; height: 11px; border-radius: 50%; }
+.tl-dot.r { background: var(--pink); }
+.tl-dot.y { background: var(--yellow); }
+.tl-dot.g { background: var(--green); }
+.sheet-title {
+  margin-left: 0.6rem;
+  color: var(--text-soft);
+  font-family: var(--mono); font-size: 0.82rem;
+}
+
+.schematic { width: 100%; display: block; background: var(--bg); }
+
+.schematic .wires path {
+  fill: none;
+  stroke: var(--violet);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+
+/* Sits exactly on top of the solid run, so the wire stays a wire and the
+   dashes read as something travelling along it. */
+.schematic .wire-flow path {
+  fill: none;
+  stroke: var(--green);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 5 22;
+  animation: flow 2.4s linear infinite;
+}
+
+.schematic .parts rect,
+.schematic .parts path {
+  fill: none;
+  stroke: var(--text-dim);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.schematic .parts .fill { fill: var(--text-dim); }
+.schematic .junctions circle { fill: var(--text-dim); }
+
+.schematic text {
+  font-family: var(--font);
+  font-size: 19px;
+  letter-spacing: 0.04em;
+}
+.schematic .c-name { fill: var(--yellow); }
+.schematic .c-val  { fill: var(--green); }
+.schematic .c-dim  { fill: var(--text-dim); }
+
+/* Purely decorative — the solid wires underneath carry the drawing, so
+   stopping this loses nothing. */
+@keyframes flow { to { stroke-dashoffset: -54; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .schematic .wire-flow { display: none; }
+}
+
+.sheet-cap {
+  padding: 0.85rem 1rem;
+  background: var(--chrome);
+  border-top: var(--border) solid color-mix(in srgb, var(--line) 12%, transparent);
+  color: var(--text-soft);
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+
+/* ══ 8. Section furniture ════════════════════════════════════════════════ */
+
+.section { padding-block: var(--section-y); }
+.section.alt {
+  background: color-mix(in srgb, var(--chrome) 32%, var(--bg));
+  border-block: var(--border) solid color-mix(in srgb, var(--line) 8%, transparent);
+}
+
+.kicker {
+  margin-bottom: 0.6rem;
+  color: var(--teal);
+  font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase;
+}
+
+.section-title {
+  max-width: 22ch;
+  margin-bottom: 1.25rem;
+  font-size: clamp(1.85rem, 1.4rem + 1.7vw, 2.75rem);
+}
+
+.sub-title {
+  margin: 2.25rem 0 1rem;
+  font-size: 1.2rem;
+}
+
+.lede {
+  max-width: 60ch;
+  margin-bottom: 1.75rem;
+  color: var(--text-soft);
+  font-size: clamp(1.02rem, 0.98rem + 0.25vw, 1.14rem);
+}
+
+.note {
+  max-width: 68ch;
+  margin-top: 1.5rem;
+  color: var(--text-soft);
+  font-size: 0.94rem;
+}
+
+.fine {
+  max-width: 78ch;
+  margin-top: 1.5rem;
+  color: var(--text-soft);
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+
+/* ══ 9. What it is ═══════════════════════════════════════════════════════ */
+
+.steps { display: grid; gap: 1.5rem; }
+.steps li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0 1rem;
+}
+.step-n {
+  grid-row: span 2;
+  display: grid; place-items: center;
+  width: 34px; height: 34px;
+  border: var(--border) solid var(--teal);
+  border-radius: 50%;
+  color: var(--teal);
+  font-size: 0.95rem;
+}
+.steps h3 { font-size: 1.15rem; margin-bottom: 0.35rem; }
+.steps p { font-size: 0.98rem; color: var(--text-soft); }
+
+.shot {
+  margin: clamp(1.75rem, 4vw, 2.75rem) 0 0;
+  border: var(--border) solid color-mix(in srgb, var(--line) 16%, transparent);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--chrome);
+}
+.shot img { width: 100%; }
+.shot figcaption {
+  padding: 0.8rem 1rem;
+  color: var(--text-soft);
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+.keys {
+  margin-top: clamp(1.75rem, 4vw, 2.5rem);
+  padding: 1.25rem 1.5rem;
+  background: var(--console);
+  border: var(--border) solid color-mix(in srgb, var(--line) 12%, transparent);
+  border-radius: var(--radius);
+}
+.keys-title {
+  margin-bottom: 1rem;
+  color: var(--text-soft);
+  font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase;
+}
+.keylist { display: flex; flex-wrap: wrap; gap: 0.65rem 1.4rem; }
+.keylist li {
+  display: flex; align-items: center; gap: 0.5rem;
+  color: var(--text-soft); font-size: 0.92rem;
+}
+kbd {
+  display: inline-block;
+  padding: 0.15em 0.5em;
+  background: var(--surface);
+  border: var(--border) solid color-mix(in srgb, var(--line) 22%, transparent);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  color: var(--text);
+}
+
+
+/* ══ 10. Parts browser ═══════════════════════════════════════════════════ */
+
+.browser {
+  display: grid;
+  grid-template-columns: 272px minmax(0, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: start;
+}
+
+/* ── the picker ── */
+
+/* Five families fit any viewport, so this no longer needs to scroll inside
+   itself — it just sticks beside the reading. */
+.browser-nav {
+  position: sticky; top: var(--sticky-top);
+}
+.browser-nav [role="tablist"] { display: grid; gap: 0.5rem; }
+
+/* Two lines: the family, and the parts it holds. The second line is what
+   makes a five-item picker worth looking at — it says what is behind each
+   one rather than leaving the reader to click and find out. */
+.nav-item {
+  display: grid; gap: 0.2rem;
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  background: none;
+  border: var(--border) solid color-mix(in srgb, var(--line) 10%, transparent);
+  border-radius: var(--radius);
+  color: var(--text-soft);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.16s ease, color 0.16s ease, border-color 0.16s ease;
+}
+.nav-item:hover {
+  background: var(--surface);
+  color: var(--text);
+}
+.nav-item[aria-selected="true"] {
+  background: var(--surface);
+  border-color: var(--teal);
+  color: var(--text);
+}
+
+.nav-name {
+  color: var(--text);
+  font-size: 0.98rem;
+}
+.nav-parts {
+  color: var(--text-soft);
+  font-size: 0.76rem; line-height: 1.45;
+  opacity: 0.75;
+}
+.nav-item[aria-selected="true"] .nav-parts { opacity: 1; }
+
+/* ── the reading ── */
+
+/* Stretched rather than start-aligned: the picker is the taller of the two
+   columns for the short families, and a reading pane that stops halfway down
+   leaves a hole beside it. */
+.browser-read {
+  min-width: 0;
+  align-self: stretch;
+  padding: clamp(1.4rem, 3vw, 2rem);
+  background: var(--surface);
+  border: var(--border) solid color-mix(in srgb, var(--line) 14%, transparent);
+  border-radius: var(--radius);
+}
+
+/* Progressive enhancement, the same rule as the scroll reveal below: the
+   hiding only exists once the inline script in <head> has set `js`, so a page
+   whose scripts never run shows every family stacked and readable instead of
+   one panel and no way to reach the rest. */
+.js .part-group:not(.is-open) { display: none; }
+
+/* Without JS every family stacks, so they need telling apart — a heavier
+   rule than the one between parts inside a family. */
+.part-group + .part-group {
+  margin-top: 3.5rem;
+  padding-top: 3.5rem;
+  border-top: var(--border) solid color-mix(in srgb, var(--line) 24%, transparent);
+}
+.js .part-group + .part-group { margin-top: 0; padding-top: 0; border-top: 0; }
+
+.part-group:focus-visible { outline-offset: 6px; }
+
+/* The family's own heading, above the run of parts. Its job is to tell the
+   reader what the next few screens are about before the symbols start. */
+.group-head {
+  margin-bottom: 2rem;
+  padding-bottom: 1.4rem;
+  border-bottom: var(--border) solid color-mix(in srgb, var(--line) 14%, transparent);
+}
+.group-head h3 {
+  margin-bottom: 0.5rem;
+  font-size: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
+}
+.group-head p {
+  max-width: 58ch;
+  margin: 0;
+  color: var(--text-soft);
+}
+
+/* One part follows another inside the panel now, so the divider between them
+   is always on — it is the only thing separating two entries. */
+.part + .part {
+  margin-top: 2.5rem;
+  padding-top: 2.5rem;
+  border-top: var(--border) solid color-mix(in srgb, var(--line) 12%, transparent);
+}
+
+/* Deep links land on a part inside a panel, and the header would otherwise
+   sit over it. */
+.part { scroll-margin-top: calc(var(--sticky-top) + 1rem); }
+
+/* Centred rather than top-aligned: the head is a row of symbols and a title,
+   and a lone heading pinned to the top of a 90px tile reads as adrift. */
+/* The symbol files are the plugin's own artwork, copied unmodified from
+   assets/icons/elements — black strokes on transparent, because the app
+   recolours everything it draws. Rather than fork them just to change a
+   colour (and lose the ability to re-copy them when the plugin's art
+   changes), the filter on .glyph img below does the recolouring here:
+   brightness(0) flattens to black keeping the alpha, invert(1) turns that
+   white. Scaled rather than sized up, too: the artwork sits in a -60..60
+   viewBox with a wide empty margin, so at its natural size the ink is about
+   half the box. */
+.part-head {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+.part-head h4 { font-size: clamp(1.2rem, 1.1rem + 0.5vw, 1.45rem); }
+
+.glyphs {
+  display: flex; flex-wrap: wrap; gap: 0.6rem;
+  margin: 0;
+}
+.glyph {
+  display: grid; justify-items: center; gap: 0.35rem;
+  padding: 0.5rem;
+  background: var(--bg);
+  border: var(--border) solid color-mix(in srgb, var(--line) 14%, transparent);
+  border-radius: var(--radius);
+}
+.glyph img {
+  width: 62px; height: 62px;
+  transform: scale(1.5);           /* see .part-head above */
+  filter: brightness(0) invert(1);
+  opacity: 0.88;
+}
+.glyph b {
+  color: var(--text-soft);
+  font-size: 0.72rem; font-weight: 400; letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.part-body p { color: var(--text-soft); }
+.part-body p:last-child { margin-bottom: 0; }
+
+/* The models a part ships with. A description list because that is what it
+   is: a name and what the name means. */
+.models {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.55rem 1.25rem;
+  margin: 1.75rem 0 0;
+  padding-top: 1.5rem;
+  border-top: var(--border) solid color-mix(in srgb, var(--line) 12%, transparent);
+}
+.models dt {
+  color: var(--yellow);
+  font-family: var(--mono); font-size: 0.86rem;
+  padding-top: 0.1em;
+}
+.models dd {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 0.94rem; line-height: 1.55;
+}
+
+
+/* ══ 11. Download ════════════════════════════════════════════════════════ */
+
+.dl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.dl {
+  padding: 1.5rem;
+  background: var(--surface);
+  border: var(--border) solid color-mix(in srgb, var(--line) 14%, transparent);
+  border-radius: var(--radius);
+  text-align: center;
+}
+.dl h3 { font-size: 1.25rem; margin-bottom: 0.35rem; }
+.dl-formats {
+  margin-bottom: 1.25rem;
+  color: var(--text-soft);
+  font-size: 0.86rem;
+}
+
+.callout {
+  margin-bottom: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--console);
+  border: var(--border) solid color-mix(in srgb, var(--line) 10%, transparent);
+  border-left: 3px solid var(--yellow);
+  border-radius: var(--radius);
+}
+.callout h3 { font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--yellow); }
+.callout p { font-size: 0.96rem; color: var(--text-soft); margin: 0; }
+.callout.danger { border-left-color: var(--pink); }
+.callout.danger h3 { color: var(--pink); }
+
+
+/* ══ 12. Licence ═════════════════════════════════════════════════════════ */
+
+.ticks { display: grid; gap: 0.7rem; margin: 0 0 1.15em; }
+.ticks li {
+  position: relative;
+  padding-left: 1.5rem;
+  color: var(--text-soft);
+  font-size: 0.96rem;
+}
+.ticks li::before {
+  content: "";
+  position: absolute; left: 0; top: 0.62em;
+  width: 8px; height: 8px;
+  border-left: 2px solid var(--green);
+  border-bottom: 2px solid var(--green);
+  transform: rotate(-45deg);
+}
+
+.licence-links {
+  display: grid; gap: 0.1rem;
+  padding: 1.5rem;
+  background: var(--surface);
+  border: var(--border) solid color-mix(in srgb, var(--line) 14%, transparent);
+  border-radius: var(--radius);
+}
+.licence-links h3 {
+  margin-bottom: 0.9rem;
+  color: var(--text-soft);
+  font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-weight: 400;
+}
+.licence-links a {
+  padding: 0.5rem 0;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border-bottom: var(--border) solid color-mix(in srgb, var(--line) 10%, transparent);
+}
+.licence-links a:last-child { border-bottom: 0; }
+
+.licences { display: grid; gap: 0.15rem; }
+.licences li {
+  display: grid;
+  grid-template-columns: minmax(0, 15rem) minmax(0, 9rem) minmax(0, 1fr);
+  gap: 0.25rem 1.25rem;
+  align-items: baseline;
+  padding: 0.45rem 0;
+  border-bottom: var(--border) solid color-mix(in srgb, var(--line) 8%, transparent);
+}
+.licences li:last-child { border-bottom: 0; }
+/* Undecorated until hovered, like the credits below: eighteen underlined rows
+   in a column is a wall of rules rather than a list of names. */
+.licences a { font-size: 0.96rem; text-decoration: none; }
+.licences a:hover { text-decoration: underline; }
+.licences .lic {
+  color: var(--green);
+  font-family: var(--mono); font-size: 0.82rem;
+}
+.licences span:last-child { color: var(--text-soft); font-size: 0.9rem; }
+
+.credits { display: grid; gap: 0.15rem; }
+.credits li {
+  display: grid;
+  grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+  gap: 0.25rem 1.25rem;
+  align-items: baseline;
+  padding: 0.45rem 0;
+  border-bottom: var(--border) solid color-mix(in srgb, var(--line) 8%, transparent);
+}
+.credits li:last-child { border-bottom: 0; }
+.credits a { font-size: 1rem; text-decoration: none; }
+.credits a:hover { text-decoration: underline; }
+.credits span { font-size: 0.88rem; color: var(--text-soft); }
+
+
+/* ══ 13. Footer ══════════════════════════════════════════════════════════ */
+
+.site-footer {
+  background: var(--chrome);
+  border-top: var(--border) solid color-mix(in srgb, var(--line) 12%, transparent);
+  padding-top: clamp(2rem, 4vw, 2.75rem);
+}
+
+.footer-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+.footer-brand .brand-mark { width: 132px; margin-bottom: 1rem; }
+.footer-brand p { font-size: 0.92rem; color: var(--text-soft); }
+
+.footer-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.5rem;
+}
+.footer-links h4 {
+  margin-bottom: 0.75rem;
+  color: var(--text-soft);
+  font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-weight: 400;
+}
+.footer-links a {
+  display: block;
+  padding: 0.25rem 0;
+  color: var(--text-dim);
+  font-size: 0.92rem;
+  text-decoration: none;
+}
+.footer-links a:hover { color: var(--violet); }
+
+.footer-base {
+  display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem;
+  justify-content: space-between;
+  padding-block: 1.25rem;
+  border-top: var(--border) solid color-mix(in srgb, var(--line) 10%, transparent);
+  color: var(--text-soft);
+  font-size: 0.85rem;
+}
+.footer-base p { margin: 0; }
+.footer-base a { color: var(--text-soft); text-decoration: none; }
+.footer-base a:hover { color: var(--text); }
+
+
+/* ══ 14. Scroll reveal ═══════════════════════════════════════════════════ */
+
+/* Progressive enhancement, deliberately. The hidden state is scoped to
+   `html.js-anim`, which only main.js sets — so if the script fails, is
+   blocked, or never runs, every one of these elements is simply visible.
+   Content that needs JavaScript to be readable is not content. */
+
+@media (prefers-reduced-motion: no-preference) {
+  .js-anim .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .js-anim .reveal.in { opacity: 1; transform: none; }
+}
+
+
+/* ══ 15. Responsive ══════════════════════════════════════════════════════ */
+
+@media (max-width: 940px) {
+  .nav, .gh { display: none; }
+  .menu-btn { display: flex; }
+
+  .two-col { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; }
+
+  /* The picker goes on top and wraps into a row: a sticky column is worth
+     having only while there is room for the reading beside it, and five
+     families fit across without needing to scroll sideways. */
+  .browser { grid-template-columns: 1fr; }
+  .browser-nav { position: static; }
+  .browser-nav [role="tablist"] {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .cta-row .btn { width: 100%; }
+  .section-title { max-width: none; }
+  .sheet-title { display: none; }
+
+  .licences li,
+  .credits li { grid-template-columns: 1fr; }
+  .models { grid-template-columns: 1fr; gap: 0.15rem 0; }
+  .models dd { margin-bottom: 0.7rem; }
+}
