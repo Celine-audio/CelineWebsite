@@ -12,7 +12,7 @@
      4.  Header and navigation
      5.  Buttons
      6.  Hero
-     7.  The sheet (hero schematic)
+     7.  The sheet (hero screenshot)
      8.  Section furniture
      9.  What it is: two columns, steps, screenshot, key bindings
      10. Parts browser
@@ -358,7 +358,7 @@ em { color: var(--text); font-style: italic; }
 }
 
 
-/* ══ 7. The sheet (hero schematic) ═══════════════════════════════════════ */
+/* ══ 7. The sheet (hero screenshot) ═══════════════════════════════════════ */
 
 .sheet {
   margin: clamp(1.75rem, 4vw, 2.75rem) 0 0;
@@ -385,52 +385,34 @@ em { color: var(--text); font-style: italic; }
   font-family: var(--mono); font-size: 0.82rem;
 }
 
-.schematic { width: 100%; display: block; background: var(--bg); }
+/* The plugin's own screenshot, with the signal laid over its wires. The
+   overlay's viewBox is the image's pixel size, so the two scale together. */
+.live-shot { position: relative; }
+.live-shot img { width: 100%; }
+.live-shot .wire-flow {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
 
-.schematic .wires path {
+/* Sits exactly on top of the purple wire, so the wire stays a wire and the
+   dashes read as something travelling along it. One dash period is 54, and
+   the animation moves two of them, so the loop has no seam. */
+.wire-flow path {
   fill: none;
-  stroke: var(--violet);
-  stroke-width: 2.4;
+  stroke: var(--text);
+  stroke-width: 4;
   stroke-linecap: round;
+  stroke-dasharray: 10 44;
+  animation: flow 1.2s linear infinite;
 }
 
-/* Sits exactly on top of the solid run, so the wire stays a wire and the
-   dashes read as something travelling along it. */
-.schematic .wire-flow path {
-  fill: none;
-  stroke: var(--green);
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  stroke-dasharray: 5 22;
-  animation: flow 2.4s linear infinite;
-}
-
-.schematic .parts rect,
-.schematic .parts path {
-  fill: none;
-  stroke: var(--text-dim);
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.schematic .parts .fill { fill: var(--text-dim); }
-.schematic .junctions circle { fill: var(--text-dim); }
-
-.schematic text {
-  font-family: var(--font);
-  font-size: 19px;
-  letter-spacing: 0.04em;
-}
-.schematic .c-name { fill: var(--yellow); }
-.schematic .c-val  { fill: var(--green); }
-.schematic .c-dim  { fill: var(--text-dim); }
-
-/* Purely decorative — the solid wires underneath carry the drawing, so
+/* Purely decorative — the wires in the screenshot carry the drawing, so
    stopping this loses nothing. */
-@keyframes flow { to { stroke-dashoffset: -54; } }
+@keyframes flow { to { stroke-dashoffset: -108; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .schematic .wire-flow { display: none; }
+  .wire-flow { display: none; }
 }
 
 .sheet-cap {
