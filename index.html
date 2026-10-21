@@ -42,9 +42,12 @@
     </a>
 
     <nav class="nav" aria-label="Main">
-      <a href="#what">What it is</a>
+      <a href="index.html" aria-current="page">Céline</a>
+      <a href="aura.html">AURA</a>
+      <a href="gallery.html">GALLERY</a>
+      <span class="nav-sep" aria-hidden="true"></span>
+      <a href="#new">What's new</a>
       <a href="#parts">Parts</a>
-      <a href="#about">About</a>
       <a href="#download">Download</a>
     </nav>
 
@@ -60,9 +63,14 @@
   </div>
 
   <nav class="nav-mobile" id="nav-mobile" aria-label="Main, mobile">
+    <span class="nav-label">Plugins</span>
+    <a href="index.html" aria-current="page">Céline</a>
+    <a href="aura.html">AURA</a>
+    <a href="gallery.html">GALLERY</a>
+    <span class="nav-label">On this page</span>
     <a href="#what">What it is</a>
+    <a href="#new">What's new</a>
     <a href="#parts">Parts</a>
-    <a href="#about">About</a>
     <a href="#download">Download</a>
     <a href="#licence">Licence</a>
     <a href="https://github.com/Celine-audio/Celine">GitHub ↗</a>
@@ -78,6 +86,8 @@
   <div class="grid-bg" aria-hidden="true"></div>
 
   <div class="wrap hero-inner">
+    <a class="release" href="#new"><b>v1.2</b> MOSFETs, the LM386, a KT88 and file playback →</a>
+
     <h1 class="hero-title">
       Draw a circuit,<br>
       Play through it. <em>Live.</em>
@@ -94,7 +104,7 @@
     </div>
 
     <ul class="format-strip" aria-label="Available formats">
-      <li>VST3</li><li>AU</li><li>CLAP</li><li>LV2</li><li>Standalone</li>
+      <li>VST3</li><li>AU</li><li>CLAP</li><li>LV2</li><li>AAX</li><li>Standalone</li>
       <li class="sep" aria-hidden="true"></li>
       <li>macOS</li><li>Windows</li><li>Linux</li>
     </ul>
@@ -222,6 +232,12 @@
           It runs with no added latency and rebuilds instantly, allowing for uninterrupted
           playing while the circuit is still being worked on.
         </p>
+        <p>
+          Oversampling at 2×, 4×, 8× or 16× keeps aliasing down. Each doubling costs nearly
+          twice the CPU, so 16× is meant for rendering rather than playing live.
+          A <code>.celsch</code> file holds the drawing and the knob positions, and a preset
+          folder keeps a library of schematics one click away.
+        </p>
       </div>
 
       <ol class="steps">
@@ -273,9 +289,91 @@
 </section>
 
 
+<!-- ══════════════════════════════════════════════════════════════ new ══ -->
+
+<section id="new" class="section alt">
+  <div class="wrap">
+
+    <h2 class="section-title">What's new in 1.2</h2>
+    <p class="lede">
+      New parts, more of the models pedals are actually built from, and a way to bench a
+      circuit against the same take every time.
+    </p>
+
+    <ul class="cards">
+      <li class="card">
+        <h3>MOSFETs <span class="badge">New part</span></h3>
+        <p>
+          Enhancement-mode <a href="#part-mosfet">2N7000</a> (also the BS170) and BS250, fitted to
+          Vishay's datasheets, with the body diode modelled.
+        </p>
+      </li>
+      <li class="card">
+        <h3>LM386 power amp <span class="badge">New part</span></h3>
+        <p>
+          Built from the datasheet's equivalent schematic, with pins 1 and 8 brought out:
+          gain 20 open, 200 with a capacitor across them.
+          <a href="#part-poweramp">Read more</a>
+        </p>
+      </li>
+      <li class="card">
+        <h3>KT88 and more models</h3>
+        <p>
+          A KT88 power valve, germanium NTE102 / NTE103 and low-noise 2SC2240 transistors,
+          BAT41 and BAT46 Schottkys and a 1N4001 rectifier.
+        </p>
+      </li>
+      <li class="card">
+        <h3>Play a file through it</h3>
+        <p>
+          Select the <a href="#part-input">Input</a> to feed the circuit from an audio file
+          instead of the live input, looped or once: the same take through two versions of
+          a sheet.
+        </p>
+      </li>
+      <li class="card">
+        <h3>8× and 16× oversampling</h3>
+        <p>
+          Two new steps above 4×, for circuits that alias hard. 16× is for rendering
+          rather than for playing live.
+        </p>
+      </li>
+      <li class="card">
+        <h3>Click-free bypass</h3>
+        <p>
+          Bypassing now crossfades in and out, so switching the plugin on and off no longer
+          leaves an audible click.
+        </p>
+      </li>
+      <li class="card">
+        <h3>Values under the knobs</h3>
+        <p>
+          Every knob in the control strip shows its value beneath it, so a setting can be
+          read without hovering.
+        </p>
+      </li>
+      <li class="card">
+        <h3>Sharper transistor models</h3>
+        <p>
+          The BJT models were reworked and MOSFET accuracy checked against the datasheets,
+          with a new suite of model tests behind both.
+        </p>
+      </li>
+    </ul>
+
+    <p class="note">
+      Since 1.1: a theming engine shared with AURA and GALLERY — every colour editable from
+      <strong>Settings → Theme…</strong> and saved as a <code>.celthm</code> file — and an
+      overhauled interface. macOS 11 Big Sur is now the minimum.
+    </p>
+
+  </div>
+</section>
+
+
 <!-- ════════════════════════════════════════════════════════════ parts ══ -->
 
-<section id="parts" class="section alt">
+<section id="parts" class="section">
   <div class="wrap">
 
     <h2 class="section-title">Parts</h2>
@@ -309,7 +407,7 @@
 
           <button class="nav-item" role="tab" id="tab-semis" aria-controls="panel-semis" aria-selected="false" tabindex="-1">
             <span class="nav-name">Semiconductors</span>
-            <span class="nav-parts">Diode · BJ transistor · JFE transistor · Op-amp</span>
+            <span class="nav-parts">Diode · BJT · JFET · MOSFET · Op-amp · Power amp</span>
           </button>
 
           <button class="nav-item" role="tab" id="tab-valves" aria-controls="panel-valves" aria-selected="false" tabindex="-1">
@@ -343,8 +441,7 @@
             </header>
             <div class="part-body prose">
               <p>
-                The ground is a reference point in the electrical circuit from which voltages are measured. It is required by every circuit
-
+                The ground is a reference point in the electrical circuit from which voltages are measured.
                 Every circuit needs one, and the build will fail without one.
               </p>
             </div>
@@ -361,6 +458,16 @@
             <div class="part-body prose">
               <p>
                 This node is the entry-point of the circuit. It acts as an ideal voltage source with reference to ground and is needed for the circuit to run.
+              </p>
+              <p>
+                <strong>Playing a file</strong> <span class="badge">New in 1.2</span> — select the input to
+                feed the circuit from an audio file instead of the live input: choose a file, switch Loop on
+                or off, then Play and Stop. It is made for benching, the same take through two versions of a sheet.
+              </p>
+              <p>
+                The file is never saved with the sheet or the session. A file at the session's rate reaches
+                the circuit bit-exact; any other rate is resampled once, when it is loaded. Bypass gives back
+                the file itself.
               </p>
             </div>
           </article>
@@ -470,7 +577,7 @@
             </header>
             <div class="part-body prose">
               <p>
-                Ideal capacitor, the circuit emulates them by integrating with the trapezoidal rule at the sample period.
+                Ideal inductor, the circuit emulates them by integrating with the trapezoidal rule at the sample period.
               </p>
             </div>
           </article>
@@ -543,13 +650,17 @@
           <article class="part" id="part-switch">
             <header class="part-head">
               <p class="glyphs">
-                <span class="glyph"><img src="assets/components/switch-open.svg" alt="Switch symbol" loading="lazy"></span>
+                <span class="glyph"><img src="assets/components/switch-open.svg" alt="Switch symbol" loading="lazy"><b>SPST</b></span>
+                <span class="glyph"><img src="assets/components/spdt-a.svg" alt="Changeover switch symbol" loading="lazy"><b>SPDT</b></span>
               </p>
               <h4>Switch</h4>
             </header>
             <div class="part-body prose">
               <p>
                 Switches function in the same fashion as the potentiometers. It is implemented as a resistor that changes value (it is not a true break in the circuit). It has the same naming convention : two switches with the same name will be shared and ganged together.
+              </p>
+              <p>
+                There is an on/off switch and a changeover (SPDT) switch, whose common pin moves between its two throws.
               </p>
             </div>
           </article>
@@ -595,11 +706,21 @@
             <div class="part-body prose">
               <p>
                 All of the modelled diodes share the same p-n junction maths. It is an exponential I-V curve with
-                maths inspired bt SPICE.
+                maths inspired by SPICE.
               </p>
               <p>
                 No junction capacitance and no reverse recovery. This is negligible at audio-rate clipping but slightly wrong in a power supply rectifier.
               </p>
+              <dl class="models">
+                <dt>1N4148 · 1N914</dt><dd>Silicon, ~0.6 V</dd>
+                <dt>1N4001</dt><dd>Silicon rectifier, ~0.57 V, slow recovery <span class="badge">New</span></dd>
+                <dt>1N34A</dt><dd>Germanium, ~0.33 V, soft knee</dd>
+                <dt>1N5817</dt><dd>Schottky, ~0.3 V, hard knee</dd>
+                <dt>BAT41</dt><dd>Schottky, ~0.4 V, soft knee <span class="badge">New</span></dd>
+                <dt>BAT46</dt><dd>Schottky, ~0.26 V, sharp knee <span class="badge">New</span></dd>
+                <dt>Red · Green · Blue LED</dt><dd>~1.6 V · ~1.9 V · ~3.2 V</dd>
+                <dt>Zener 5.1 V · 9 V</dt><dd>Clamps at its rated voltage</dd>
+              </dl>
             </div>
           </article>
 
@@ -619,6 +740,18 @@
               <p>
                 Transit time is not modelled : f<sub>T</sub> does not degrade with current.
               </p>
+              <dl class="models">
+                <dt>2N3904 · 2N3906</dt><dd>Silicon, NPN and PNP</dd>
+                <dt>2N2222A</dt><dd>Silicon, higher current</dd>
+                <dt>2N5133</dt><dd>Silicon, low noise</dd>
+                <dt>BC108A · BC108B · BC109C</dt><dd>hFE grades A, B and C. Also the BC547–550 of the same grade</dd>
+                <dt>2N5088 · 2N5089</dt><dd>Low noise, hFE 300–900 and 400–1200</dd>
+                <dt>MPSA18</dt><dd>Low noise, hFE 500–1500</dd>
+                <dt>MPSA13</dt><dd>Darlington, Vbe ~1.1 V</dd>
+                <dt>2SC2240 GR · BL</dt><dd>Low noise, hFE 200–400 and 350–700 <span class="badge">New</span></dd>
+                <dt>AC127 · AC128</dt><dd>Germanium, NPN and PNP</dd>
+                <dt>NTE103 · NTE102</dt><dd>Germanium, NPN and PNP, hFE ~95 at 1 mA <span class="badge">New</span></dd>
+              </dl>
             </div>
           </article>
 
@@ -635,6 +768,45 @@
               <p>
                 JFE transistors. The square law is a simple one. There are no capacitances, no Miller like the BJTs.
               </p>
+              <dl class="models">
+                <dt>J201</dt><dd>N-channel, pinch-off −0.7 V</dd>
+                <dt>2N5457</dt><dd>N-channel, pinch-off −1.5 V</dd>
+                <dt>2N5485</dt><dd>N-channel, pinch-off −2.0 V</dd>
+                <dt>2N5952</dt><dd>N-channel, pinch-off −2.4 V</dd>
+                <dt>2N5460</dt><dd>P-channel, pinch-off −1.5 V</dd>
+              </dl>
+            </div>
+          </article>
+
+          <!-- ── mosfet ── -->
+          <article class="part" id="part-mosfet">
+            <header class="part-head">
+              <p class="glyphs">
+                <span class="glyph"><img src="assets/components/mosfet-n.svg" alt="N-channel MOSFET symbol" loading="lazy"><b>N-channel</b></span>
+                <span class="glyph"><img src="assets/components/mosfet-p.svg" alt="P-channel MOSFET symbol" loading="lazy"><b>P-channel</b></span>
+              </p>
+              <h4>MOSFE transistor</h4>
+              <span class="badge">New in 1.2</span>
+            </header>
+            <div class="part-body prose">
+              <p>
+                Enhancement-mode MOSFETs, the discrete parts a pedal uses, with the source tied to the body.
+                It is off at zero gate voltage and turns on past a threshold of a couple of volts, and its gate
+                is insulated, so a MOSFET stage clips by cutoff and by its drain running out of room, never by gate conduction.
+              </p>
+              <p>
+                A pedal runs one barely above threshold, where the current is neither the textbook square law nor the
+                exponential below it. The model is one smooth curve through both, so the gain does not jump as the
+                signal swings the bias through threshold. The body diode is part of the device and is modelled.
+              </p>
+              <p>
+                Not modelled: drain series resistance, mobility degradation, gate resistance, and the voltage
+                dependence of the capacitances. The pins match the JFET's, so the two swap on a sheet without rewiring.
+              </p>
+              <dl class="models">
+                <dt>2N7000</dt><dd>N-channel, threshold 2.1 V. Also the BS170</dd>
+                <dt>BS250</dt><dd>P-channel, threshold −3.2 V</dd>
+              </dl>
             </div>
           </article>
 
@@ -657,6 +829,40 @@
 
                 What is not: slew limiting, input bias and offset current, CMRR, PSRR and the
                 higher-order poles a real part has.
+              </p>
+              <dl class="models">
+                <dt>TL071 / TL072</dt><dd>JFET input, 3 MHz</dd>
+                <dt>JRC4558</dt><dd>The distortion-pedal op-amp, 2.8 MHz</dd>
+                <dt>NE5532</dt><dd>Low noise, 12 MHz</dd>
+                <dt>LM308</dt><dd>The distortion-pedal op-amp, 1 MHz</dd>
+                <dt>LM741</dt><dd>General purpose, 1.2 MHz</dd>
+                <dt>Ideal</dt><dd>No gain limit, bandwidth or clipping</dd>
+              </dl>
+            </div>
+          </article>
+
+          <!-- ── power amp ── -->
+          <article class="part" id="part-poweramp">
+            <header class="part-head">
+              <p class="glyphs">
+                <span class="glyph"><img src="assets/components/power-amp.svg" alt="Power amplifier symbol" loading="lazy"></span>
+              </p>
+              <h4>Power amp</h4>
+              <span class="badge">New in 1.2</span>
+            </header>
+            <div class="part-body prose">
+              <p>
+                An LM386-style audio power amplifier. Not an op-amp, whatever the triangle suggests: its feedback is
+                inside the package, and the engine builds it from the datasheet's own equivalent schematic.
+              </p>
+              <p>
+                Pins 1 and 8 are brought out. Left open the gain is 20; a capacitor between them takes it to 200;
+                a resistor in series with that capacitor sets anything between, which is what the gain knob on
+                every LM386 amp is.
+              </p>
+              <p>
+                Not modelled: crossover distortion from its class-AB output stage, a current limit, and the bypass pin,
+                since the supply here is ideal and has no ripple to reject.
               </p>
             </div>
           </article>
@@ -696,6 +902,14 @@
               <p>
                 <strong>Interelectrode capacitance</strong> is an enhancement that tries to make valve emulation closer to reality. It is slightly expensive, can cause problems at time, and can be disabled if it causes problems or to save CPU.
               </p>
+              <dl class="models">
+                <dt>12AX7 JJ</dt><dd>ECC83, µ 100. Koren</dd>
+                <dt>12AT7 JJ</dt><dd>ECC81, µ 62. Koren</dd>
+                <dt>12AY7 JJ</dt><dd>µ 40. Koren</dd>
+                <dt>12AU7 JJ</dt><dd>ECC82, µ 17. Koren</dd>
+                <dt>12AX7 GE</dt><dd>µ 103, fitted to 18 measured stages. Koren</dd>
+                <dt>12AX7 RSD · RSD2 · EHX</dt><dd>µ 103, 100 and 87, measured grid current. Dempwolf–Zölzer</dd>
+              </dl>
             </div>
           </article>
 
@@ -721,6 +935,18 @@
                 There are <strong>no secondary emission</strong>, the kink in the plate curves at low plate
                 voltage where electrons flow backwards.
               </p>
+              <p>
+                Strap the screen to the plate for triode-mode wiring.
+              </p>
+              <dl class="models">
+                <dt>EL34 JJ</dt><dd>Pentode</dd>
+                <dt>EL84 JJ</dt><dd>Pentode</dd>
+                <dt>KT77 JJ</dt><dd>Pentode</dd>
+                <dt>6L6GC JJ</dt><dd>Beam tetrode</dd>
+                <dt>6V6S JJ</dt><dd>Beam tetrode</dd>
+                <dt>KT66 JJ</dt><dd>Beam tetrode</dd>
+                <dt>KT88 JJ</dt><dd>Beam tetrode <span class="badge">New</span></dd>
+              </dl>
             </div>
           </article>
 
@@ -736,6 +962,11 @@
               <p>
                 This model is pure 3/2-power space-charge flow, fitted to real datasheets.
               </p>
+              <dl class="models">
+                <dt>GZ34 JJ</dt><dd>5AR4, ~25 V drop at 250 mA. The least sag</dd>
+                <dt>5U4GB JJ</dt><dd>~50 V drop at 250 mA</dd>
+                <dt>5Y3GT JJ</dt><dd>~60 V drop at 125 mA. The most sag</dd>
+              </dl>
             </div>
           </article>
         </section>
@@ -752,16 +983,17 @@
   <div class="wrap">
 
     <h2 class="section-title">Download Céline</h2>
+    <p class="dl-ver">Version 1.2.0 · macOS 11 Big Sur or later, Windows, Linux</p>
 
     <div class="dl-grid">
       <article class="dl">
         <h3>macOS</h3>
-        <p class="dl-formats">VST3 · AU · CLAP · Standalone</p>
+        <p class="dl-formats">VST3 · AU · CLAP · LV2 · Standalone</p>
         <a class="btn btn-primary btn-block" href="https://github.com/Celine-audio/Celine/releases/latest">Download</a>
       </article>
       <article class="dl">
         <h3>Windows</h3>
-        <p class="dl-formats">VST3 · CLAP · Standalone</p>
+        <p class="dl-formats">VST3 · CLAP · LV2 · Standalone with ASIO</p>
         <a class="btn btn-primary btn-block" href="https://github.com/Celine-audio/Celine/releases/latest">Download</a>
       </article>
       <article class="dl">
@@ -775,9 +1007,19 @@
       <h3>The builds are not code-signed</h3>
       <p>
         Gatekeeper on macOS and SmartScreen on Windows will warn you. On macOS, right-click
-        the plugin or app and choose <em>Open</em> the first time; on Windows, choose
+        the plugin or app and choose <em>Open</em> the first time, or remove the quarantine
+        attribute from each file you install; on Windows, choose
         <em>More info → Run anyway</em>. If you would rather not take that on trust, the
         source is right there — build it yourself.
+      </p>
+      <pre class="cmd">xattr -d com.apple.quarantine &lt;file_path&gt;</pre>
+    </div>
+
+    <div class="callout">
+      <h3>AAX is waiting on Avid</h3>
+      <p>
+        AAX builds for macOS and Windows are made, but until Avid approves them they only
+        load in a Pro Tools developer build, not in a shipping Pro Tools.
       </p>
     </div>
 
@@ -886,6 +1128,12 @@
     </div>
 
     <nav class="footer-links" aria-label="Footer">
+      <div>
+        <h4>Plugins</h4>
+        <a href="index.html">Céline</a>
+        <a href="aura.html">AURA</a>
+        <a href="gallery.html">GALLERY</a>
+      </div>
       <div>
         <h4>Project</h4>
         <a href="https://github.com/Celine-audio/Celine">Repository</a>

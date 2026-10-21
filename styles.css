@@ -20,7 +20,8 @@
      12. Licence
      13. Footer
      14. Scroll reveal
-     15. Responsive
+     15. Product pages and release notes
+     16. Responsive
    ═══════════════════════════════════════════════════════════════════════ */
 
 
@@ -68,6 +69,17 @@
   --green:           #a6e22e;
   --yellow:          #e6db74;
   --pink:            #f92672;
+
+  /* AURA's three curves, from its PluginThemeRoles.h (correction is --violet) */
+  --current:         #4fc9e8;
+  --reference:       #f2545b;
+  --stale:           #e8913f;
+
+  /* GALLERY's four cabinets, from its PluginThemeRoles.h */
+  --cab-1:           #3ecfc0;
+  --cab-2:           #e25a5a;
+  --cab-3:           #6f7ceb;
+  --cab-4:           #e0b64a;
 
   /* geometry, matching the plugin */
   --radius:          8px;
@@ -205,6 +217,14 @@ em { color: var(--text); font-style: italic; }
 }
 .nav a:hover { color: var(--text); border-bottom-color: var(--teal); }
 
+/* The three products come first, the current one underlined; the page's own
+   anchors follow after a hairline. */
+.nav a[aria-current="page"] { color: var(--text); border-bottom-color: var(--teal); }
+.nav-sep {
+  width: var(--border); align-self: stretch; margin-block: 0.45rem;
+  background: color-mix(in srgb, var(--line) 22%, transparent);
+}
+
 .gh { flex: 0 0 auto; }
 .gh svg { flex: 0 0 auto; }
 
@@ -239,6 +259,12 @@ em { color: var(--text); font-style: italic; }
   border-bottom: var(--border) solid color-mix(in srgb, var(--line) 8%, transparent);
 }
 .nav-mobile.open { display: flex; }
+.nav-mobile a[aria-current="page"] { color: var(--text); }
+.nav-mobile .nav-label {
+  margin-top: 0.9rem;
+  color: var(--text-soft);
+  font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+}
 
 
 /* ══ 5. Buttons ══════════════════════════════════════════════════════════ */
@@ -885,7 +911,149 @@ kbd {
 }
 
 
-/* ══ 15. Responsive ══════════════════════════════════════════════════════ */
+/* ══ 15. Product pages and release notes ═════════════════════════════════ */
+
+/* The pill above a hero title, pointing at what changed in this release. */
+.release {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  margin-bottom: 1.4rem;
+  padding: 0.3rem 0.9rem 0.3rem 0.35rem;
+  background: var(--surface);
+  border: var(--border) solid color-mix(in srgb, var(--line) 18%, transparent);
+  border-radius: 1.25rem;          /* not a full pill: it wraps on a phone */
+  color: var(--text-soft);
+  font-size: 0.86rem;
+  text-align: left;
+  text-decoration: none;
+}
+.release:hover { color: var(--text); border-color: var(--teal); }
+.release b {
+  padding: 0.1rem 0.6rem;
+  background: var(--teal);
+  border-radius: 999px;
+  color: var(--text);
+  font-weight: 600; font-size: 0.78rem;
+}
+
+/* The plugin's own wordmark, white on transparent, drawn above its title. */
+.product-mark {
+  width: clamp(170px, 26vw, 250px);
+  margin: 0 auto 1.6rem;
+}
+
+/* A screenshot inside the window chrome the hero sheet wears. */
+.sheet > img { width: 100%; }
+
+/* "New in 1.2": a pill beside a part's name or on a card. */
+.badge {
+  display: inline-block;
+  padding: 0.12rem 0.55rem;
+  border: var(--border) solid var(--green);
+  border-radius: 999px;
+  color: var(--green);
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+.part-head .badge { margin-left: -0.5rem; }
+
+/* Feature cards: release notes and a product's main ideas. */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+  gap: 1rem;
+}
+.card {
+  padding: 1.35rem 1.4rem;
+  background: var(--surface);
+  border: var(--border) solid color-mix(in srgb, var(--line) 14%, transparent);
+  border-radius: var(--radius);
+}
+.card h3 {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;
+  margin-bottom: 0.55rem;
+  font-size: 1.08rem;
+}
+.card p { color: var(--text-soft); font-size: 0.95rem; }
+.card code { font-size: 0.8rem; }
+.cards + .note { margin-top: 1.25rem; }
+
+/* A control reference: the .models list, given a card of its own. */
+.spec {
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  background: var(--surface);
+  border: var(--border) solid color-mix(in srgb, var(--line) 14%, transparent);
+  border-radius: var(--radius);
+}
+.spec h3 { font-size: 1.15rem; }
+.spec .models { margin-top: 1rem; padding-top: 1.1rem; }
+.spec p { margin-top: 0.6rem; color: var(--text-soft); font-size: 0.95rem; }
+.spec + .spec { margin-top: 1rem; }
+
+/* Diagrams drawn on the page (AURA's curves, GALLERY's pad). */
+.figure {
+  margin: 0;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  background: var(--console);
+  border: var(--border) solid color-mix(in srgb, var(--line) 12%, transparent);
+  border-radius: var(--radius);
+}
+.figure svg { width: 100%; }
+.figure figcaption {
+  margin-top: 0.9rem;
+  color: var(--text-soft);
+  font-size: 0.86rem;
+}
+.figure text {
+  font-family: var(--font);
+  font-size: 13px;
+  fill: var(--text-soft);
+  letter-spacing: 0.04em;
+}
+.figure .grid-line { stroke: color-mix(in srgb, var(--grid) 55%, transparent); stroke-width: 1; }
+.figure .curve { fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+.legend {
+  display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem;
+  margin-top: 0.9rem;
+  color: var(--text-soft);
+  font-size: 0.86rem;
+}
+.legend li { display: flex; align-items: center; gap: 0.5rem; }
+.legend li::before {
+  content: "";
+  width: 18px; height: 3px; border-radius: 2px;
+  background: var(--swatch);
+}
+
+.c-current    { --swatch: var(--current);   stroke: var(--current); }
+.c-reference  { --swatch: var(--reference); stroke: var(--reference); }
+.c-correction { --swatch: var(--violet);    stroke: var(--violet); }
+.c-cab-1 { --swatch: var(--cab-1); stroke: var(--cab-1); fill: var(--cab-1); }
+.c-cab-2 { --swatch: var(--cab-2); stroke: var(--cab-2); fill: var(--cab-2); }
+.c-cab-3 { --swatch: var(--cab-3); stroke: var(--cab-3); fill: var(--cab-3); }
+.c-cab-4 { --swatch: var(--cab-4); stroke: var(--cab-4); fill: var(--cab-4); }
+
+/* A command to copy, set like the plugin's console. */
+.cmd {
+  margin: 0.75rem 0 0;
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  background: var(--bg);
+  border: var(--border) solid color-mix(in srgb, var(--line) 12%, transparent);
+  border-radius: 6px;
+  color: var(--green);
+  font-family: var(--mono); font-size: 0.86rem;
+}
+
+.dl-ver {
+  margin: -1rem 0 1.5rem;
+  color: var(--text-soft);
+  font-size: 0.92rem;
+}
+
+
+/* ══ 16. Responsive ══════════════════════════════════════════════════════ */
 
 @media (max-width: 940px) {
   .nav, .gh { display: none; }
