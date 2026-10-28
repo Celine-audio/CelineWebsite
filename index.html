@@ -11,7 +11,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Céline — design circuits, play through them live">
 <meta property="og:description" content="Draw a circuit, play through it. Live. An open source circuit simulator built for realtime audio.">
-<meta property="og:image" content="assets/interface.png">
+<meta property="og:image" content="https://celine-audio.github.io/CelineWebsite/assets/interface.png">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="assets/icon.png" type="image/png">
@@ -45,16 +45,15 @@
       <a href="index.html" aria-current="page">Céline</a>
       <a href="aura.html">AURA</a>
       <a href="gallery.html">GALLERY</a>
-      <span class="nav-sep" aria-hidden="true"></span>
-      <a href="#new">What's new</a>
-      <a href="#parts">Parts</a>
-      <a href="#download">Download</a>
     </nav>
 
-    <a class="btn btn-ghost btn-sm gh" href="https://github.com/Celine-audio/Celine">
-      <svg viewBox="0 0 16 16" aria-hidden="true" width="16" height="16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
-      <span>GitHub</span>
-    </a>
+    <div class="header-actions">
+      <a class="btn btn-ghost btn-sm gh" href="https://github.com/Celine-audio/Celine">
+        <svg viewBox="0 0 16 16" aria-hidden="true" width="16" height="16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub</span>
+      </a>
+      <a class="btn btn-primary btn-sm" href="#download">Download</a>
+    </div>
 
     <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav-mobile" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -67,12 +66,7 @@
     <a href="index.html" aria-current="page">Céline</a>
     <a href="aura.html">AURA</a>
     <a href="gallery.html">GALLERY</a>
-    <span class="nav-label">On this page</span>
-    <a href="#what">What it is</a>
-    <a href="#new">What's new</a>
-    <a href="#parts">Parts</a>
-    <a href="#download">Download</a>
-    <a href="#licence">Licence</a>
+    <a class="nav-break" href="#download">Download</a>
     <a href="https://github.com/Celine-audio/Celine">GitHub ↗</a>
   </nav>
 </header>
@@ -88,14 +82,12 @@
   <div class="wrap hero-inner">
     <a class="release" href="#new"><b>v1.2</b> MOSFETs, the LM386, a KT88 and file playback →</a>
 
-    <h1 class="hero-title">
-      Draw a circuit,<br>
-      Play through it. <em>Live.</em>
-    </h1>
+    <h1><img class="product-mark is-designer" src="assets/designer.svg" alt="Céline designer"></h1>
 
     <p class="hero-sub">
-      Céline (Circuit Emulation Layer for Integrated Nonlinear Equation Solving)
-      is an open-source audio plugin for building and emulating circuits in real time.
+      Céline is an open-source audio plugin that simulates the circuit you draw,
+      part by part. Wire up a schematic, press Rebuild, and your signal runs
+      through it in real time.
     </p>
 
     <div class="cta-row">
@@ -228,76 +220,28 @@
   <div class="wrap">
 
     <h2 class="section-title">What's new in 1.2</h2>
-    <p class="lede">
-      New parts, more of the models pedals are actually built from, and a way to bench a
-      circuit against the same take every time.
-    </p>
 
-    <ul class="cards">
-      <li class="card">
-        <h3>MOSFETs <span class="badge">New part</span></h3>
-        <p>
-          Enhancement-mode <a href="#part-mosfet">2N7000</a> (also the BS170) and BS250, fitted to
-          Vishay's datasheets, with the body diode modelled.
-        </p>
-      </li>
-      <li class="card">
-        <h3>LM386 power amp <span class="badge">New part</span></h3>
-        <p>
-          Built from the datasheet's equivalent schematic, with pins 1 and 8 brought out:
-          gain 20 open, 200 with a capacitor across them.
-          <a href="#part-poweramp">Read more</a>
-        </p>
-      </li>
-      <li class="card">
-        <h3>KT88 and more models</h3>
-        <p>
-          A KT88 power valve, germanium NTE102 / NTE103 and low-noise 2SC2240 transistors,
-          BAT41 and BAT46 Schottkys and a 1N4001 rectifier.
-        </p>
-      </li>
-      <li class="card">
-        <h3>Play a file through it</h3>
-        <p>
-          Select the <a href="#part-input">Input</a> to feed the circuit from an audio file
-          instead of the live input, looped or once: the same take through two versions of
-          a sheet.
-        </p>
-      </li>
-      <li class="card">
-        <h3>8× and 16× oversampling</h3>
-        <p>
-          Two new steps above 4×, for circuits that alias hard. 16× is for rendering
-          rather than for playing live.
-        </p>
-      </li>
-      <li class="card">
-        <h3>Click-free bypass</h3>
-        <p>
-          Bypassing now crossfades in and out, so switching the plugin on and off no longer
-          leaves an audible click.
-        </p>
-      </li>
-      <li class="card">
-        <h3>Values under the knobs</h3>
-        <p>
-          Every knob in the control strip shows its value beneath it, so a setting can be
-          read without hovering.
-        </p>
-      </li>
-      <li class="card">
-        <h3>Sharper transistor models</h3>
-        <p>
-          The BJT models were reworked and MOSFET accuracy checked against the datasheets,
-          with a new suite of model tests behind both.
-        </p>
-      </li>
+    <ul class="changes">
+      <li><strong>MOSFETs</strong> <span class="badge">New part</span>
+        <a href="#part-mosfet">2N7000</a> / BS170 and BS250, body diode included.</li>
+      <li><strong>LM386 power amp</strong> <span class="badge">New part</span>
+        Gain 20, or 200 with a capacitor across pins 1 and 8. <a href="#part-poweramp">More</a></li>
+      <li><strong>More models</strong>
+        KT88 valve, NTE102 / NTE103, 2SC2240, BAT41 / BAT46 and 1N4001.</li>
+      <li><strong>File playback</strong>
+        Feed the <a href="#part-input">Input</a> from an audio file, looped or once.</li>
+      <li><strong>8× and 16× oversampling</strong>
+        For circuits that alias hard.</li>
+      <li><strong>Click-free bypass</strong>
+        Switching on and off no longer clicks.</li>
+      <li><strong>Values under the knobs</strong>
+        Read a setting without hovering.</li>
+      <li><strong>Sharper transistor models</strong>
+        BJTs reworked, MOSFETs checked against the datasheets.</li>
     </ul>
 
     <p class="note">
-      Since 1.1: a theming engine shared with AURA and GALLERY — every colour editable from
-      <strong>Settings → Theme…</strong> and saved as a <code>.celthm</code> file — and an
-      overhauled interface. macOS 11 Big Sur is now the minimum.
+      Since 1.1: editable themes shared with AURA and GALLERY, saved as <code>.celthm</code>.
     </p>
 
   </div>
@@ -989,7 +933,8 @@
           <li>Anyone you hand a binary to is entitled to the source for that exact build. Development happens in public and every release is built from a tagged commit, which is how that right is served.</li>
         </ul>
         <p>
-          The same summary is in the plugin itself, under <strong>Settings → About</strong>.
+          Céline contains no AI. AI assistants were used alongside the authors during development;
+          Céline remains the authors' work.
         </p>
       </div>
 

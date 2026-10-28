@@ -70,6 +70,14 @@
   --yellow:          #e6db74;
   --pink:            #f92672;
 
+  /* Site-only, the accent in two roles Theme.h never asks of it. --violet as
+     link text is 3.6:1 on the page and under 3:1 on a card; --link is the
+     same hue lifted to 5.2:1 or better on every surface. --teal under white
+     button text is 4.0:1; --accent-fill is the same hue taken down to 5.7:1,
+     and still 4.6:1 at its hover tint. */
+  --link:            #b9a0f2;
+  --accent-fill:     #7647c0;
+
   /* AURA's three curves, from its PluginThemeRoles.h (correction is --violet) */
   --current:         #4fc9e8;
   --reference:       #f2545b;
@@ -133,8 +141,8 @@ p { margin: 0 0 1.15em; text-wrap: pretty; }
 p:last-child { margin-bottom: 0; }
 
 a {
-  color: var(--violet);
-  text-decoration-color: color-mix(in srgb, var(--violet) 40%, transparent);
+  color: var(--link);
+  text-decoration-color: color-mix(in srgb, var(--link) 40%, transparent);
   text-underline-offset: 0.2em;
 }
 a:hover { color: var(--text); text-decoration-color: currentColor; }
@@ -156,7 +164,7 @@ em { color: var(--text); font-style: italic; }
 
 .skip {
   position: absolute; left: -9999px; top: 0; z-index: 200;
-  background: var(--teal); color: var(--text);
+  background: var(--accent-fill); color: var(--text);
   padding: 0.75rem 1.25rem;
   border-radius: 0 0 var(--radius) 0;
 }
@@ -217,14 +225,13 @@ em { color: var(--text); font-style: italic; }
 }
 .nav a:hover { color: var(--text); border-bottom-color: var(--teal); }
 
-/* The three products come first, the current one underlined; the page's own
-   anchors follow after a hairline. */
+/* Only the three products, the current one underlined, so the header reads
+   the same on every page, and the mobile menu matches it. A page's own
+   sections are one scroll away; Download, the one every page shares, is a
+   button. */
 .nav a[aria-current="page"] { color: var(--text); border-bottom-color: var(--teal); }
-.nav-sep {
-  width: var(--border); align-self: stretch; margin-block: 0.45rem;
-  background: color-mix(in srgb, var(--line) 22%, transparent);
-}
 
+.header-actions { display: flex; gap: 0.6rem; flex: 0 0 auto; }
 .gh { flex: 0 0 auto; }
 .gh svg { flex: 0 0 auto; }
 
@@ -260,6 +267,8 @@ em { color: var(--text); font-style: italic; }
 }
 .nav-mobile.open { display: flex; }
 .nav-mobile a[aria-current="page"] { color: var(--text); }
+/* Download and GitHub are not plugins: a gap sets them off from the list. */
+.nav-mobile .nav-break { margin-top: 0.9rem; }
 .nav-mobile .nav-label {
   margin-top: 0.9rem;
   color: var(--text-soft);
@@ -282,11 +291,11 @@ em { color: var(--text); font-style: italic; }
 .btn:active { transform: translateY(1px); }
 
 .btn-primary {
-  background: var(--teal);
+  background: var(--accent-fill);
   color: var(--text);
 }
 .btn-primary:hover {
-  background: color-mix(in srgb, var(--teal) 82%, white);
+  background: color-mix(in srgb, var(--accent-fill) 90%, white);
   color: var(--text);
 }
 
@@ -323,16 +332,6 @@ em { color: var(--text); font-style: italic; }
 }
 
 .hero-inner { position: relative; text-align: center; }
-
-.hero-title {
-  font-size: clamp(2.5rem, 7vw, 4.5rem);
-  line-height: 1.05;
-  margin-bottom: 1.25rem;
-}
-.hero-title em {
-  color: var(--violet);
-  font-style: normal;
-}
 
 .hero-sub {
   max-width: 62ch;
@@ -861,7 +860,7 @@ kbd {
   font-size: 0.92rem;
   text-decoration: none;
 }
-.footer-links a:hover { color: var(--violet); }
+.footer-links a:hover { color: var(--link); }
 
 .footer-base {
   display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem;
@@ -911,17 +910,24 @@ kbd {
 .release:hover { color: var(--text); border-color: var(--teal); }
 .release b {
   padding: 0.1rem 0.6rem;
-  background: var(--teal);
+  background: var(--accent-fill);
   border-radius: 999px;
   color: var(--text);
   font-weight: 600; font-size: 0.78rem;
 }
 
-/* The plugin's own wordmark, white on transparent, drawn above its title. */
+/* The plugin's own wordmark, white on transparent: the page's heading.
+   The marks are words of different lengths, so they share a lowercase
+   letter height rather than a width. --mark-ratio is each file's viewBox
+   width over the height of its lowercase letters, measured from the paths. */
 .product-mark {
-  width: clamp(170px, 26vw, 250px);
+  --x-height: clamp(20px, 3vw, 30px);
+  width: calc(var(--x-height) * var(--mark-ratio));
   margin: 0 auto 1.6rem;
 }
+.product-mark.is-designer { --mark-ratio: 12.41; }   /* 66 / 5.32 */
+.product-mark.is-aura     { --mark-ratio: 6.38; }    /* 36 / 5.64 */
+.product-mark.is-gallery  { --mark-ratio: 9.34; }    /* 51 / 5.46 */
 
 /* A screenshot inside the window chrome the hero sheet wears. */
 .sheet > img { width: 100%; }
@@ -939,26 +945,23 @@ kbd {
 }
 .part-head .badge { margin-left: -0.5rem; }
 
-/* Feature cards: release notes and a product's main ideas. */
-.cards {
+/* Release notes: one line per change, two columns where they fit. */
+.changes {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr));
+  column-gap: 2.5rem;
 }
-.card {
-  padding: 1.35rem 1.4rem;
-  background: var(--surface);
-  border: var(--border) solid color-mix(in srgb, var(--line) 14%, transparent);
-  border-radius: var(--radius);
+.changes li {
+  padding-block: 0.75rem;
+  border-top: var(--border) solid color-mix(in srgb, var(--line) 12%, transparent);
+  color: var(--text-soft);
+  font-size: 0.95rem;
+  line-height: 1.55;
 }
-.card h3 {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;
-  margin-bottom: 0.55rem;
-  font-size: 1.08rem;
-}
-.card p { color: var(--text-soft); font-size: 0.95rem; }
-.card code { font-size: 0.8rem; }
-.cards + .note { margin-top: 1.25rem; }
+.changes strong { margin-right: 0.35rem; }
+.changes .badge { margin-right: 0.35rem; font-size: 0.62rem; }
+.changes code { font-size: 0.8rem; }
+.changes + .note { margin-top: 1.25rem; }
 
 /* A control reference: the .models list, given a card of its own. */
 .spec {
@@ -1038,7 +1041,7 @@ kbd {
 /* ══ 16. Responsive ══════════════════════════════════════════════════════ */
 
 @media (max-width: 940px) {
-  .nav, .gh { display: none; }
+  .nav, .header-actions { display: none; }
   .menu-btn { display: flex; }
 
   .two-col { grid-template-columns: 1fr; }

@@ -11,7 +11,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="AURA — learn a sound, then match it">
 <meta property="og:description" content="A spectrum-matching EQ from Céline Audio. Free and open source.">
-<meta property="og:image" content="assets/aura/interface.png">
+<meta property="og:image" content="https://celine-audio.github.io/CelineWebsite/assets/aura/interface.png">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="assets/icon.png" type="image/png">
@@ -38,16 +38,15 @@
       <a href="index.html">Céline</a>
       <a href="aura.html" aria-current="page">AURA</a>
       <a href="gallery.html">GALLERY</a>
-      <span class="nav-sep" aria-hidden="true"></span>
-      <a href="#how">How it works</a>
-      <a href="#controls">Controls</a>
-      <a href="#download">Download</a>
     </nav>
 
-    <a class="btn btn-ghost btn-sm gh" href="https://github.com/Celine-audio/AURA">
-      <svg viewBox="0 0 16 16" aria-hidden="true" width="16" height="16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
-      <span>GitHub</span>
-    </a>
+    <div class="header-actions">
+      <a class="btn btn-ghost btn-sm gh" href="https://github.com/Celine-audio/AURA">
+        <svg viewBox="0 0 16 16" aria-hidden="true" width="16" height="16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub</span>
+      </a>
+      <a class="btn btn-primary btn-sm" href="#download">Download</a>
+    </div>
 
     <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav-mobile" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -60,11 +59,7 @@
     <a href="index.html">Céline</a>
     <a href="aura.html" aria-current="page">AURA</a>
     <a href="gallery.html">GALLERY</a>
-    <span class="nav-label">On this page</span>
-    <a href="#how">How it works</a>
-    <a href="#controls">Controls</a>
-    <a href="#new">What's new</a>
-    <a href="#download">Download</a>
+    <a class="nav-break" href="#download">Download</a>
     <a href="https://github.com/Celine-audio/AURA">GitHub ↗</a>
   </nav>
 </header>
@@ -80,12 +75,7 @@
   <div class="wrap hero-inner">
     <a class="release" href="#new"><b>v1.3</b> Import files, an adjustable analyser, click-free bypass →</a>
 
-    <img class="product-mark" src="assets/aura/wordmark.svg" alt="">
-
-    <h1 class="hero-title">
-      Learn a sound,<br>
-      then <em>match it.</em>
-    </h1>
+    <h1><img class="product-mark is-aura" src="assets/aura/wordmark.svg" alt="AURA"></h1>
 
     <p class="hero-sub">
       AURA is a spectrum-matching EQ. It learns the spectrum of your signal and of a
@@ -199,11 +189,6 @@
   <div class="wrap">
 
     <h2 class="section-title">Controls</h2>
-    <p class="lede">
-      A handful of controls, each one shaping the curve rather than the sound directly.
-      All of them are host-automatable.
-    </p>
-
     <div class="two-col">
       <div>
         <div class="spec">
@@ -257,48 +242,23 @@
 
     <h2 class="section-title">What's new in 1.3</h2>
 
-    <ul class="cards">
-      <li class="card">
-        <h3>Import a file <span class="badge">New</span></h3>
-        <p>
-          Learn a take from an audio file instead of from the transport. It is run through the
-          same analysers, so a file and a live take can be matched against each other.
-        </p>
-      </li>
-      <li class="card">
-        <h3>Adjustable analyser <span class="badge">New</span></h3>
-        <p>
-          The graph slides up and down, so the top of a loud signal or the bottom of a deep cut
-          is never off the edge. Both scales move together and stay on round gridlines.
-        </p>
-      </li>
-      <li class="card">
-        <h3>Preview the correction</h3>
-        <p>
-          The Preview button draws the curve Match would build, in the same orange the Match
-          button wears when it is out of date, so you see what pressing it will do first.
-        </p>
-      </li>
-      <li class="card">
-        <h3>No loudness matching</h3>
-        <p>The match follows the shape of the spectrum only, and leaves the level to the Output trim.</p>
-      </li>
-      <li class="card">
-        <h3>Click-free bypass</h3>
-        <p>
-          A 30 ms crossfade against a copy of the input delayed by the plugin's latency, with
-          the correction kept running underneath so it never resumes with a burst.
-        </p>
-      </li>
-      <li class="card">
-        <h3>Cleaner interface</h3>
-        <p>Tidier layout and wording, and a round of bug fixes.</p>
-      </li>
+    <ul class="changes">
+      <li><strong>Import a file</strong> <span class="badge">New</span>
+        Learn a take from an audio file and match it against a live one.</li>
+      <li><strong>Adjustable analyser</strong> <span class="badge">New</span>
+        Slide the graph so loud peaks and deep cuts stay in view.</li>
+      <li><strong>Preview the correction</strong>
+        See the curve Match would build before you press it.</li>
+      <li><strong>No loudness matching</strong>
+        The match follows shape only; level is left to the Output trim.</li>
+      <li><strong>Click-free bypass</strong>
+        A 30 ms crossfade, with no burst when it resumes.</li>
+      <li><strong>Cleaner interface</strong>
+        Tidier layout and wording, plus bug fixes.</li>
     </ul>
 
     <p class="note">
-      Like Céline and GALLERY, every colour in AURA is editable from <strong>Theme…</strong>
-      in the settings menu, and a theme saved as a <code>.celthm</code> file loads into any of the three.
+      Themes saved as <code>.celthm</code> load into Céline, AURA and GALLERY alike.
     </p>
 
   </div>
